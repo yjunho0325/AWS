@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS 클라우드 아키텍처</title>
+    
+    <style>
+        /* 프리미엄 영문/국문 폰트 조합 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            color: #f8fafc;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: #0b0f19; /* 깊이감 있는 딥 다크 블루 스페이스 블루 */
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        /* 은은한 그라데이션이 적용된 헤더 배너 */
+        .header-banner {
+            background: radial-gradient(circle at top left, rgba(35, 47, 62, 0.3), transparent), 
+                        linear-gradient(180deg, #0f172a 0%, #0b0f19 100%);
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 153, 0, 0.15);
+            position: relative;
+        }
+        
+        .header-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ff9900, transparent);
+        }
+        
+        .header-banner h1 {
+            font-size: 32px;
+            margin: 0 0 12px 0;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 60%, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        /* 테두리 빛 퍼짐 및 플로팅 효과가 적용된 럭셔리 카드 디자인 */
+        .service-card-link {
+            display: block;
+            width: 100%;
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(226, 232, 240, 0.06);
+            border-radius: 12px;
+            padding: 26px;
+            margin-bottom: 25px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* 마우스 호버 시 트랜지션 효과 */
+        .service-card-link:hover {
+            border-color: rgba(255, 153, 0, 0.4);
+            background: rgba(30, 41, 59, 0.7);
+            transform: translateY(-3px);
+            box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.6);
+        }
+        
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+        }
+        
+        /* 기본 service-title 설정에서 색상만 개별 지정을 위해 상속하도록 변경 */
+        .service-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            transition: color 0.3s ease;
+        }
+        
+        /* 각 서비스별 타이틀 컬러 매칭 및 Hover 효과 */
+        .card-lambda .service-title { color: #60a5fa; }
+        .card-lambda:hover .service-title { color: #93c5fd; }
+
+        .card-rds .service-title { color: #fbbf24; }
+        .card-rds:hover .service-title { color: #fde047; }
+
+        .card-secrets .service-title { color: #34d399; }
+        .card-secrets:hover .service-title { color: #6ee7b7; }
+        
+        .service-desc {
+            font-size: 14.5px;
+            margin-bottom: 20px;
+            color: #cbd5e1;
+            font-weight: 400;
+            text-align: justify;
+        }
+        
+        .link-footer {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 13px;
+            color: #ff9900;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            transition: color 0.2s;
+        }
+        
+        .service-card-link:hover .link-footer {
+            color: #ffb84d;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1>AWS 서비스 아키텍처 개요</h1>
+    </div>
+
+    <div class="container">
+        <a href="lambda" class="service-card-link card-lambda">
+            <div class="service-header">
+                <span class="service-title">AWS Lambda</span>
+            </div>
+            <div class="service-desc">
+                이벤트 기반의 고가용성 서버리스 컴퓨팅 플랫폼입니다. 별도의 인프라 자원 예약 및 서버 운영 관리 작업 없이, 호출 빈도와 실행 시간에 비례한 정밀한 비용 최적화 아키텍처를 구현합니다.
+            </div>
+        </a>
+
+        <a href="rds" class="service-card-link card-rds">
+            <div class="service-header">
+                <span class="service-title">AWS RDS</span>
+            </div>
+            <div class="service-desc">
+                복잡한 인프라 관리 부담을 해소하는 엔터프라이즈급 풀 매니지드 관계형 데이터베이스 서비스입니다. 스토리지 자동 확장, 자동 패치 및 Multi-AZ 가용성 복제를 완벽하게 지원합니다.
+            </div>
+        </a>
+
+        <a href="asm" class="service-card-link card-secrets">
+            <div class="service-header">
+                <span class="service-title">AWS Secrets Manager</span>
+            </div>
+            <div class="service-desc">
+                데이터베이스 자격 증명 및 API 토큰 등 핵심 기밀 정보를 런타임 시점에 안전하게 제공하는 중앙 집중형 보안 솔루션입니다. 자동 암호 회전 정책을 기본으로 지원합니다.
+            </div>
+        </a>
+        
+    </div>
+
+</body>
+</html>

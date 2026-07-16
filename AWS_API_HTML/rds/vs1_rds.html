@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS RDS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            color: #f8fafc;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: #0b0f19; /* 깊이감 있는 딥 다크 블루 스페이스 블루 */
+            -webkit-font-smoothing: antialiased;
+        }
+        *, *::before, *::after { box-sizing: border-box; }     
+        
+        /* 메인 배너 스타일링 */
+        .header-banner {
+            background: radial-gradient(circle at top left, rgba(245, 158, 11, 0.15), transparent), 
+                        linear-gradient(180deg, #0f172a 0%, #0b0f19 100%);
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+            position: relative;
+        }
+        .header-banner::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fbbf24, transparent);
+        }
+        
+        .header-banner h1 {
+            font-size: 30px;
+            margin: 0 0 12px 0;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 60%, #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        /* 레이아웃 박스 구성 */
+        .section-box {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(226, 232, 240, 0.06);
+            border-radius: 12px;
+            padding: 26px;
+            margin-bottom: 25px;
+        }
+        
+        h2 {
+            font-size: 18px;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 16px;
+            background-color: #fbbf24;
+            border-radius: 2px;
+            margin-right: 12px;
+        }
+        
+        ul {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        strong {
+            color: #ffffff;
+        }
+        
+        /* 돌아가기 액션 버튼 스타일 */
+        .back-btn {
+            display: inline-block;
+            background: transparent;
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+        
+        .back-btn:hover {
+            background: rgba(245, 158, 11, 0.1);
+            border-color: #fbbf24;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-banner">
+        <h1>AWS RDS (Relational Database Service)</h1>
+    </div>
+
+    <div class="container">
+        <div class="section-box">
+            <h2>핵심 특징</h2>
+            <ul>
+                <li><strong>고가용성 구현 (Multi-AZ):</strong> 기본 데이터베이스 인스턴스의 장애 발생 시, 다른 가용 영역(AZ)에 동기식으로 복제되어 있던 예비 인스턴스로 자동 페일오버(Failover)를 수행하여 서비스 중단을 방지합니다.</li>
+                <li><strong>성능 확장성 (Read Replicas):</strong> 읽기 전용 복제본을 최대 5개 이상 생성하여 트래픽이 몰리는 대규모 읽기 요청(조회 쿼리) 분산 처리를 수행하고 메인 DB의 부하를 획기적으로 낮춥니다.</li>
+                <li><strong>백업 및 복구 보장:</strong> 스냅샷 기반의 자동 백업을 지원하여 사용자가 지정한 보존 기간 내 특정 시점(Point-in-Time)으로 언제든지 데이터를 완벽히 복구할 수 있습니다.</li>
+            </ul>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="#" onclick="window.history.back(); return false;" class="back-btn">&larr; 메인 아키텍처 화면으로 돌아가기</a>
+        </div>
+        
+    </div>
+
+</body>
+</html>

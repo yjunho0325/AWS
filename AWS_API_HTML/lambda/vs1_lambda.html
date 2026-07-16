@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>AWS Lambda</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            color: #f8fafc;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            background-color: #0b0f19;
+            -webkit-font-smoothing: antialiased;
+        }
+        *, *::before, *::after { box-sizing: border-box; }
+        
+        /* 은은한 그라데이션이 적용된 헤더 배너 */
+        .header-banner {
+            background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.15), transparent), 
+                        linear-gradient(180deg, #0f172a 0%, #0b0f19 100%);
+            padding: 50px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            position: relative;
+        }
+        .header-banner::after {
+            content: ''; position: absolute; bottom: -1px; left: 50%; transform: translateX(-50%);
+            width: 150px; height: 2px; background: linear-gradient(90deg, transparent, #60a5fa, transparent);
+        }
+        .header-banner h1 {
+            font-size: 30px; margin: 0 0 12px 0; font-weight: 700; letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #ffffff 60%, #60a5fa);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        
+        .section-box {
+            background: rgba(30, 41, 59, 0.4);
+            border: 1px solid rgba(226, 232, 240, 0.06);
+            border-radius: 12px; padding: 26px; margin-bottom: 25px;
+        }
+        h2 {
+            font-size: 18px; color: #ffffff; margin-top: 0; margin-bottom: 15px; font-weight: 600;
+            display: flex; align-items: center;
+        }
+        h2::before {
+            content: ''; display: inline-block; width: 4px; height: 16px;
+            background-color: #60a5fa; border-radius: 2px; margin-right: 12px;
+        }
+        ul { margin: 0; padding-left: 20px; font-size: 14px; color: #94a3b8; }
+        li { margin-bottom: 8px; }
+        strong { color: #ffffff; }
+        
+        .back-btn {
+            display: inline-block; background: transparent; color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.4); padding: 10px 20px;
+            font-size: 14px; font-weight: 600; border-radius: 6px; cursor: pointer;
+            text-decoration: none; transition: all 0.2s ease; margin-top: 10px;
+        }
+        .back-btn:hover { background: rgba(59, 130, 246, 0.1); border-color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <div class="header-banner">
+        <h1>AWS Lambda</h1>
+    </div>
+    <div class="container">
+        <div class="section-box">
+            <h2>핵심 특징</h2>
+            <ul>
+                <li><strong>이벤트 기반 실행:</strong> 다양한 AWS 서비스(S3, DynamoDB, API Gateway 등)의 상태 변화나 사용자 요청 이벤트에 반응하여 즉각적으로 트리거됩니다.</li>
+                <li><strong>자동 확장(Auto-Scaling):</strong> 인입되는 요청의 규모에 따라 인스턴스를 무제한에 가깝게 자동으로 확장하며, 요청이 없을 때는 자원을 전혀 소모하지 않습니다.</li>
+                <li><strong>밀리초 단위 과금:</strong> 코드가 실행된 시간(밀리초 단위)과 컴퓨터 자원의 사용량에 대해서만 비용이 청구되므로 인프라 방치로 인한 낭비가 없습니다.</li>
+            </ul>
+        </div>
+        <div style="text-align: center;">
+            <a href="#" onclick="window.history.back(); return false;" class="back-btn">&larr; 메인 아키텍처 화면으로 돌아가기</a>
+        </div>
+    </div>
+</body>
+</html>

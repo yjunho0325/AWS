@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AWS Lambda 비동기 전송</title>
+    <style>
+        /* 화면 전체를 중앙 정렬하기 위한 스타일 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 테이블 구조를 이용해 요소를 화면 정중앙에 배치 */
+        .wrapper {
+            display: table;
+            width: 100%;
+            height: 100%;
+        }
+
+        .cell {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        /* 입력 폼 및 결과 컨테이너 */
+        .container {
+            display: inline-block;
+            text-align: left; /* 내부 텍스트는 왼쪽 정렬 */
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-sizing: border-box;
+            background-color: #ffffff;
+            border: 1px solid #e1e4e8;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            margin-top: 0;
+            color: #333;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .form-group input:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result-container {
+            margin-top: 25px;
+            padding-top: 15px;
+            border-top: 2px dashed #e1e4e8;
+            display: none; /* 초기에는 숨김 */
+        }
+
+        #result-container h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        /* JSON 데이터를 예쁘게 출력하기 위한 스타일 */
+        #result-data {
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            background: #272822; /* 터미널 느낌의 어두운 배경 */
+            color: #f8f8f2;      /* 밝은 텍스트 코드 색상 */
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <div class="cell">
+            
+            <div class="container">
+                <h2>사용자 정보 입력</h2>
+                <form id="infoForm">
+                    <div class="form-group">
+                        <label for="name">이름</label>
+                        <input type="text" id="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">연락처</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">이메일</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">주소</label>
+                        <input type="text" id="address" required>
+                    </div>
+                    <button type="submit">전송</button>
+                </form>
+
+                <div id="result-container">
+                    <h3>결과 출력:</h3>
+                    <pre id="result-data"></pre>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('infoForm').addEventListener('submit', async function(e) {
+            e.preventDefault(); 
+
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            const address = document.getElementById('address').value;
+
+            const payload = {
+                name: name,
+                phone: phone,
+                email: email,
+                address: address
+            };
+
+            const lambdaUrl = 'https://l2hs2rkdxbkzwq2trisxxpuwoq0oooye.lambda-url.ap-southeast-2.on.aws/';
+            const resultContainer = document.getElementById('result-container');
+            const resultData = document.getElementById('result-data');
+
+            resultData.textContent = "데이터 전송 중...";
+            resultContainer.style.display = 'block';
+
+            try {
+                const response = await fetch(lambdaUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`서버 에러: ${response.status}`);
+                }
+
+                // 1. 응답을 텍스트로 먼저 받음
+                const rawData = await response.text();
+                
+                try {
+                    // 2. 받은 텍스트를 JSON 객체로 파싱 시도
+                    const jsonObject = JSON.parse(rawData);
+                    
+                    // 3. 파싱된 JSON을 들여쓰기(4칸)를 넣어 예쁜 문자열로 변환하여 출력
+                    resultData.textContent = JSON.stringify(jsonObject, null, 4);
+                } catch (jsonError) {
+                    // 만약 Lambda가 완벽한 JSON 형식이 아닌 일반 텍스트를 리턴했을 경우 대비
+                    resultData.textContent = rawData;
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                resultData.textContent = JSON.stringify({ "error": "통신 실패", "message": error.message }, null, 4);
+            }
+        });
+    </script>
+
+</body>
+</html>
